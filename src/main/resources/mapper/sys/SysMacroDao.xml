@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wp.modules.sys.dao.SysMacroDao">
+	<select id="queryMacro" parameterType="java.lang.String" resultType="com.wp.modules.sys.entity.SysMacroEntity">
+		select
+			*
+		from
+			sys_macro
+		where
+			description like concat('%', #{description}, '%')
+	</select>
+
+</mapper>
