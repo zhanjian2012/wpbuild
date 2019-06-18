@@ -6,17 +6,18 @@ import org.springframework.context.annotation.Configuration;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 
 /**
- * MybatisPlus 配置
- *
- * @author Caratacus
+ * @description: mybatis-puls配置
+ * @author: zhanjian
+ * @date: 2019年6月18日 下午7:05:40
+ * @version: v1.0
  */
 @Configuration
 public class MybatisPlusAutoConfiguration {
 
     /**
-     * 分页
-     *
+     * @description: 分页拦截器
      * @return
+     * @throws
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
