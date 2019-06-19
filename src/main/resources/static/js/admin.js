@@ -397,6 +397,7 @@
             // $(this).addClass('collapse-active');
             // localStorage.setItem("data_am_collapse", $(this).attr('data-am-collapse'));
             // 加载Content
+        	debugger;
             $.myAdmin.loadContent(href);
             e.preventDefault();
         }

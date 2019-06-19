@@ -16,3 +16,27 @@
     padding-left:10px;
     padding-right:10px;
 }
+
+/**表单 自定义**/
+.form-group > label {
+    width: 65px;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.form-group > input[type="text"] {
+	width: 206px;
+}
+
+.form-inline > .btn-group {
+    margin-left: 20px;
+    margin-top: -3px;
+}
+/**表单 自定义**/
+
+/**左侧树二级菜单**/
+ul.treeview-menu > li {
+    margin-left: 20px;
+    padding: 2px;
+}
+/**左侧树二级菜单**/
