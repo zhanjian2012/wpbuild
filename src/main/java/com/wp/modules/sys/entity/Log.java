@@ -2,13 +2,19 @@ package com.wp.modules.sys.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wp.common.BaseQuery;
 
 @TableName("sys_log")
-public class Log {
+public class Log extends BaseQuery {
 
-    /**
+	private static final long serialVersionUID = 1L;
+	/**
      * 编号
      */
     @TableId
@@ -68,6 +74,16 @@ public class Log {
      * 返回值
      */
     private String returnVal;
+    
+    @JsonIgnore
+    @TableField(exist = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDate;
+
+    @JsonIgnore
+    @TableField(exist = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
 
     public Long getId() {
         return id;
@@ -164,4 +180,21 @@ public class Log {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+    
 }

@@ -1,8 +1,8 @@
-//package com.wpm.modules.system.mapper;
-//
-//import com.wpm.modules.system.entity.User;
-//import com.wpm.utils.MyMapper;
-//
-//public interface UserMapper extends MyMapper<User> {
-//
-//}
+package com.wp.modules.sys.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wp.modules.sys.entity.User;
+
+public interface UserMapper extends BaseMapper<User> {
+
+}

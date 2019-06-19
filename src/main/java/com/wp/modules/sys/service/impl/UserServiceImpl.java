@@ -1,17 +1,5 @@
-//package com.wpm.modules.system.service.impl;
+//package com.wp.modules.sys.service.impl;
 //
-//import com.github.pagehelper.PageHelper;
-//import com.wpm.core.exception.CrmException;
-//import com.wpm.modules.system.dto.UserDto;
-//import com.wpm.modules.system.entity.Group;
-//import com.wpm.modules.system.entity.Organization;
-//import com.wpm.modules.system.entity.Role;
-//import com.wpm.modules.system.entity.User;
-//import com.wpm.modules.system.mapper.UserMapper;
-//import com.wpm.modules.system.query.UserQuery;
-//import com.wpm.modules.system.service.*;
-//import com.wpm.utils.PageResultSet;
-//import com.wpm.utils.ResultCodeEnum;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
@@ -19,13 +7,22 @@
 //import org.springframework.util.CollectionUtils;
 //import org.springframework.util.StringUtils;
 //
-//import tk.mybatis.mapper.weekend.Weekend;
-//import tk.mybatis.mapper.weekend.WeekendCriteria;
+//import com.baomidou.mybatisplus.core.conditions.Wrapper;
+//import com.baomidou.mybatisplus.core.metadata.IPage;
+//import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+//import com.wp.common.PageResult;
+//import com.wp.modules.sys.entity.Log;
+//import com.wp.modules.sys.entity.User;
+//import com.wp.modules.sys.mapper.LogMapper;
+//import com.wp.modules.sys.mapper.UserMapper;
+//import com.wp.modules.sys.service.UserService;
 //
+//import java.io.Serializable;
 //import java.util.*;
+//import java.util.function.Function;
 //
 //@Service
-//public class UserServiceImpl implements UserService {
+//public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 //
 //    @Autowired
 //    private UserMapper userMapper;
@@ -202,4 +199,142 @@
 //        }
 //        return roleService.findPermissions(user.getRoleIdList().toArray(new Long[0]));
 //    }
+//
+//	@Override
+//	public boolean save(User entity) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean saveBatch(Collection<User> entityList, int batchSize) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean saveOrUpdateBatch(Collection<User> entityList, int batchSize) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean remove(Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean updateById(User entity) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean update(User entity, Wrapper<User> updateWrapper) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean updateBatchById(Collection<User> entityList, int batchSize) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public boolean saveOrUpdate(User entity) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public User getOne(Wrapper<User> queryWrapper, boolean throwEx) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public Map<String, Object> getMap(Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public int count(Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//
+//	@Override
+//	public List<User> list(Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public IPage<User> page(IPage<User> page, Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<Map<String, Object>> listMaps(Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public <V> List<V> listObjs(Wrapper<User> queryWrapper, Function<? super Object, V> mapper) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public IPage<Map<String, Object>> pageMaps(IPage<User> page, Wrapper<User> queryWrapper) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public com.wp.modules.sys.service.impl.User getById(Serializable id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public PageResult<User> findByPage(User user) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void create(User user) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void update(User user) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void delete(Long userId) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public User findOne(Long userId) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public User findByUsername(String username) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 //}

@@ -3,6 +3,7 @@ package com.wp.modules.sys.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -20,7 +21,6 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogSe
     @Autowired
     private LogMapper logMapper;
 
-
     @Override
     @Transactional
     public void create(Log log) {
@@ -29,44 +29,18 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogSe
 
     @Override
     public PageResult<Log> findByPage(Log log) {
+    	QueryWrapper<Log> wrapper = new QueryWrapper<>();
+    	wrapper.like(!StringUtils.isEmpty(log.getUsername()), "username", log.getUsername())
+    		   .like(!StringUtils.isEmpty(log.getIp()), "ip", log.getIp())
+    		   .like(!StringUtils.isEmpty(log.getReqMethod()), "req_method", log.getReqMethod())
+    		   .like(!StringUtils.isEmpty(log.getExecMethod()), "exec_method", log.getExecMethod())
+    		   .like(!StringUtils.isEmpty(log.getExecDesc()), "exec_desc", log.getExecDesc())
+    		   .like(!StringUtils.isEmpty(log.getStatus()), "status", log.getStatus())
+    		   .ge(!StringUtils.isEmpty(log.getStartDate()), "create_time", log.getStartDate())
+    		   .le(!StringUtils.isEmpty(log.getEndDate()), "create_time", log.getEndDate())
+    		   .orderBy(!StringUtils.isEmpty(log.getSort()), log.isAsc(), log.getSort());
     	
-    	IPage<Log> page = logMapper.selectPage(new Page<>(1, 10), new QueryWrapper<Log>());
-    	return new PageResult<Log>(page);
-    	
-        /*if (!StringUtils.isEmpty(log.getOrderBy())) {
-            PageHelper.orderBy(log.getOrderBy());
-        }
-
-        Weekend<Log> example = Weekend.of(Log.class);
-        WeekendCriteria<Log, Object> criteria = example.weekendCriteria();
-
-        if (!StringUtils.isEmpty(log.getUsername())) {
-            criteria.andLike(Log::getUsername, "%" + log.getUsername() + "%");
-        }
-        if (!StringUtils.isEmpty(log.getIp())) {
-            criteria.andLike(Log::getIp, "%" + log.getIp() + "%");
-        }
-        if (!StringUtils.isEmpty(log.getReqMethod())) {
-            criteria.andLike(Log::getReqMethod, "%" + log.getReqMethod() + "%");
-        }
-        if (!StringUtils.isEmpty(log.getExecMethod())) {
-            criteria.andLike(Log::getExecMethod, "%" + log.getExecMethod() + "%");
-        }
-        if (!StringUtils.isEmpty(log.getExecDesc())) {
-            criteria.andLike(Log::getExecDesc, "%" + log.getExecDesc() + "%");
-        }
-        if (!StringUtils.isEmpty(log.getStatus())) {
-            criteria.andLike(Log::getStatus, "%" + log.getStatus() + "%");
-        }
-        if (!StringUtils.isEmpty(log.getStartDate()) && !StringUtils.isEmpty(log.getEndDate())) {
-            criteria.andGreaterThanOrEqualTo(Log::getCreateTime, log.getStartDate()).andLessThanOrEqualTo(Log::getCreateTime, log.getEndDate());
-        }
-
-        PageResultSet<Log> resultSet = new PageResultSet<>();
-        Page<Log> page = PageHelper.offsetPage(log.getOffset(), log.getLimit()).doSelectPage(()-> logMapper.selectByExample(example));
-
-        resultSet.setRows(page.getResult());
-        resultSet.setTotal(page.getTotal());
-        return resultSet;*/
+    	IPage<Log> page = logMapper.selectPage(new Page<>(log.getOffset(), log.getLimit()), wrapper);
+    	return new PageResult<>(page);
     }
 }
