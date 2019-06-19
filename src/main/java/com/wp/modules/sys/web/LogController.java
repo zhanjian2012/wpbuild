@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wp.common.Result;
+import com.wp.common.PageResult;
 import com.wp.modules.sys.entity.Log;
 import com.wp.modules.sys.service.LogService;
 
@@ -33,7 +32,7 @@ public class LogController{
 
     @ResponseBody
     @RequestMapping("/list")
-    public Result<IPage<Log>> list(Log log) {
+    public PageResult<Log> list(Log log) {
         return logService.findByPage(log);
     }
 

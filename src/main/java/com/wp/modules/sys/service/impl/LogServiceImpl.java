@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wp.common.Result;
+import com.wp.common.PageResult;
 import com.wp.modules.sys.entity.Log;
 import com.wp.modules.sys.mapper.LogMapper;
 import com.wp.modules.sys.service.LogService;
@@ -28,11 +28,10 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogSe
     }
 
     @Override
-    public Result<IPage<Log>> findByPage(Log log) {
+    public PageResult<Log> findByPage(Log log) {
     	
     	IPage<Log> page = logMapper.selectPage(new Page<>(1, 10), new QueryWrapper<Log>());
-    	Result<IPage<Log>> result = new Result<IPage<Log>>(page);
-    	return result;
+    	return new PageResult<Log>(page);
     	
         /*if (!StringUtils.isEmpty(log.getOrderBy())) {
             PageHelper.orderBy(log.getOrderBy());
