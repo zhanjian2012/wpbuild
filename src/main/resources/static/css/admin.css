@@ -39,4 +39,8 @@ ul.treeview-menu > li {
     margin-left: 20px;
     padding: 2px;
 }
+/**菜单选中字体颜色**/
+span.active {
+	color: white;
+}
 /**左侧树二级菜单**/

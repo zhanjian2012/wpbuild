@@ -366,6 +366,52 @@
         }
 
     }
+    
+    /**页面刷新时，左侧菜单默认选中操作*/
+    var _page_refresh_show_menu = function() {
+		var url = window.location.href;
+        if (url.indexOf('#') > -1 && url.substr(url.indexOf('#') + 1).length > 0) {
+            var aHref = "#" + url.split("#")[1];
+            $("ul.sidebar-menu li.treeview").each(function (index,item) {
+                $(item).find("ul.treeview-menu li").each(function (idx,itm) {
+                    var _aHref = $(itm).find("a").attr("href");
+                    if(aHref == _aHref){
+                        $(itm).parents("li.treeview").addClass("menu-open");
+                        $(itm).parent("ul.treeview-menu").show();
+                        $(itm).find("a").eq(0).click();
+                        $(itm).find("span").addClass("active");
+                        return false;
+                    }
+                })
+            })
+        }
+    }
+    
+    /**左侧菜单树搜索按钮*/
+    var _menu_tree_search = function() {
+    	var menuName = $("[name='menu-input']").val();
+    	if(menuName) {
+    		$("ul.sidebar-menu li.treeview").each(function (index,item) {
+                var itemName = $(item).find("span").eq(0).text();
+                if(itemName.indexOf(menuName)>-1){
+                   $(item).find("a").eq(0).click();
+                   return false;
+                }
+                $(item).find("ul.treeview-menu li").find("span").removeClass("active");
+                $(item).find("ul.treeview-menu li").each(function (idx,itm) {
+                    var itmName = $(itm).find("span").eq(0).text();
+                    if(itmName.indexOf(menuName) > -1){
+                        $(itm).parents("li.treeview").addClass("menu-open");
+                        $(itm).parent("ul.treeview-menu").show();
+                        $(itm).find("a").eq(0).click();
+                        $(itm).find("span").addClass("active");
+                        return false;
+                    }
+                })
+            })
+    	}
+    }
+    
     //处理异步验证结果
     $.fn.isFormValid = _is_form_valid;
     // 重置表单
@@ -380,6 +426,9 @@
     $.myAction = _my_action_api;
     //提示框
     $.myNotify = _my_notify_api;
+    //页面刷新时，左侧菜单默认选中
+    $.myRefresh = _page_refresh_show_menu;
+    $.myMenuTreeSearch = _menu_tree_search;
 
 })(jQuery);
 //定义一些处理
@@ -397,8 +446,11 @@
             // $(this).addClass('collapse-active');
             // localStorage.setItem("data_am_collapse", $(this).attr('data-am-collapse'));
             // 加载Content
-        	debugger;
             $.myAdmin.loadContent(href);
+            
+            //取消默认active
+            $("ul.sidebar-menu li.treeview").find("ul.treeview-menu li").find("span").removeClass("active");
+            $(this).find("span").addClass("active");
             e.preventDefault();
         }
     });
@@ -408,7 +460,6 @@
         return $('.bootstrap-table').height();
     }
 
-
     //默认设置
     //bootstrap-notify默认设置
     $.notifyDefaults({
@@ -417,7 +468,7 @@
         allow_dismiss: true,//显示关闭
         showProgressbar: false,//显示通知条
         z_index: 1051,
-        delay: 1500//延迟
+        delay: 1500,//延迟
     });
     //bootstrap-table默认设置
     $.extend($.fn.bootstrapTable.defaults, {
@@ -462,7 +513,6 @@
 
     //出错提示
     $(document).ajaxError(function (event, request, settings) {
-        debugger;
         var responseJSON = JSON.parse(request.responseText), msg;
         if (responseJSON) {
             msg = responseJSON.msg;
@@ -478,4 +528,11 @@
     })
     // 加载Content
     $.myAdmin.loadContent();
+    $.myRefresh();
+    
+    //左侧搜索按钮点击
+    $("#menu-search-btn").on('click', function (e) {
+    	$.myMenuTreeSearch();
+    });
+    
 })(jQuery);
