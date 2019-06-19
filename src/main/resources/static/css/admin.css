@@ -18,7 +18,7 @@
 }
 
 /**表单 自定义**/
-.form-group > label {
+.form-group > label.query-label {
     width: 65px;
     text-align: right;
     margin-right: 5px;
@@ -44,3 +44,15 @@ span.active {
 	color: white;
 }
 /**左侧树二级菜单**/
+
+.width-120 {
+	width: 120px;
+}
+
+.padding-left-0 {
+	padding-left: 0;
+}
+
+.help-block {
+	margin: 0;
+}

@@ -24,9 +24,9 @@ public class Resource extends BaseQuery {
      */
     private String name;
     /**
-     * 资源类型   0：目录   1：菜单   2：按钮
+     * 资源类型   0：目录  MENU：菜单   BUTTON：按钮
      */
-    private Integer type; 
+    private ResourceType type = ResourceType.MENU; 
     /**
      * 资源路径
      */
@@ -62,7 +62,23 @@ public class Resource extends BaseQuery {
      * 叶子节点
      */
     private Boolean leaf = Boolean.FALSE;
+    
+    public enum ResourceType {
+    	
+    	MENU("菜单"), BUTTON("按钮");
 
+    	private final String name;
+
+        private ResourceType(String name) {
+            this.name = name;
+        }
+
+		public String getName() {
+			return name;
+		}
+
+    }
+    
     public Long getId() {
         return id;
     }
@@ -79,13 +95,13 @@ public class Resource extends BaseQuery {
         this.name = name;
     }
 
-    public Integer getType() {
-		return type;
-	}
+    public ResourceType getType() {
+        return type;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public void setType(ResourceType type) {
+        this.type = type;
+    }
 
 	public String getUrl() {
         return url;
@@ -160,6 +176,6 @@ public class Resource extends BaseQuery {
     }
     
     public String getTypeName() {
-    	return type == 1 ? "菜单" : "按钮";
+    	return type.getName();
     }
 }

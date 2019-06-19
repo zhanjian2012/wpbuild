@@ -171,42 +171,56 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="addModalLabel">添加角色</h4>
+                <h4 class="modal-title" id="addModalLabel">添加资源</h4>
             </div>
             <div class="modal-body">
-                <form id="addForm" onsubmit="return false;">
+                <form id="addForm" class="form-horizontal" onsubmit="return false;">
                     <input type="hidden" name="parentId" required/>
-                    <div class="form-group">
-                        <label class="control-label" for="parentName">上级节点:</label>
-                        <input type="text" class="form-control" id="parentName" name="parentName" placeholder="上级节点不存在" readonly required/>
+                    <div class=form-group>
+                        <label class="col-sm-2 width-120 control-label" for="parentName">上级节点:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" id="parentName" name="parentName" placeholder="上级节点不存在" readonly required/>
+	                  	</div>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="name"><span class="asterisk">*</span>资源名称:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="资源的名称" required>
-                        <div class="help-block with-errors"></div>
+                        <label  class="col-sm-2 width-120 control-label" for="name"><span class="asterisk">*</span>资源名称:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" name="name" id="name" placeholder="资源的名称" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="type"><span class="asterisk">*</span>资源类型:</label>
-                        <select class="form-control" name="type" id="type">
-                            <option th:each="type : ${types}" th:value="${type}" th:text="${type.info}">资源类型不存在</option>
-                        </select>
+                        <label class="col-sm-2 width-120 control-label" for="type"><span class="asterisk">*</span>资源类型:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <select class="form-control" name="type" id="type">
+	                            <option th:each="type : ${types}" th:value="${type}" th:text="${type.name}">资源类型不存在</option>
+	                        </select>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="url">URL路径:</label>
-                        <input type="text" class="form-control" name="url" id="url" placeholder="资源的URL路径，‘#’+资源名，或者站外地址">
+                        <label class="col-sm-2 width-120 control-label" for="url">URL路径:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" name="url" id="url" placeholder="资源的URL路径，‘#’+资源名，或者站外地址">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="permission">权限字符串:</label>
-                        <input type="text" class="form-control" name="permission" id="permission" placeholder="权限控制字符串，不填说明不做权限控制">
+                        <label class="col-sm-2 width-120 control-label" for="permission">权限字符串:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" name="permission" id="permission" placeholder="权限控制字符串，不填说明不做权限控制">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="icon">图标:</label>
-                        <input type="text" class="form-control" name="icon" id="icon" placeholder="支持 Glyphicons 和 FontAwesome 图标，只支持菜单">
+                        <label class="col-sm-2 width-120 control-label" for="icon">图标:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" name="icon" id="icon" placeholder="支持 Glyphicons 和 FontAwesome 图标，只支持菜单">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="priority">排序:</label>
-                        <input type="number" class="form-control" name="priority" id="priority" placeholder="资源的排序">
+                        <label class="col-sm-2 width-120 control-label" for="priority">排序:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="number" class="form-control" name="priority" id="priority" placeholder="资源的排序">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -228,23 +242,23 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="editModalLabel">添加角色</h4>
+                <h4 class="modal-title" id="editModalLabel">添加资源</h4>
             </div>
             <div class="modal-body">
-                <form id="editForm" onsubmit="return false;">
+                <form id="editForm" class="form-inline" onsubmit="return false;">
                     <input type="hidden" name="id" required/>
                     <input type="hidden" name="available" required/>
                     <input type="hidden" name="parentId" required/>
                     <input type="hidden" name="parentIds" required/>
                     <div class="form-group">
-                        <label class="control-label" for="name"><span class="asterisk">*</span>资源名称:</label>
+                        <label for="name"><span class="asterisk">*</span>资源名称:</label>
                         <input type="text" class="form-control" name="name" id="editName" placeholder="资源的名称" required>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="editType"><span class="asterisk">*</span>资源类型:</label>
                         <select class="form-control" name="type" id="editType">
-                            <option th:each="type : ${types}" th:value="${type}" th:text="${type.info}">资源类型不存在</option>
+                            <option th:each="type : ${types}" th:value="${type}" th:text="${type.name}">资源类型不存在</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -303,12 +317,12 @@
 
 <dev id="actionButtons" class="admin-hide">
     <div class="btn-group">
-        <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="查看"><i class="glyphicon glyphicon-heart"></i></a>　
-        <a shiro:hasPermission="resource:create" class="add ml10" href="javascript:void(0)" data-toggle="tooltip" title="" data-original-title="新增"><i
+<!--         <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="查看"><i class="glyphicon glyphicon-heart"></i></a>　 -->
+        <a class="add ml10" href="javascript:void(0)" data-toggle="tooltip" title="" data-original-title="新增"><i
                 class="glyphicon glyphicon-plus"></i></a>　
-        <a shiro:hasPermission="resource:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="" data-original-title="修改"><i
+        <a class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="" data-original-title="修改"><i
                 class="glyphicon glyphicon-edit"></i></a>　
-        <a shiro:hasPermission="resource:delete" class="delete ml10" href="javascript:void(0)" data-toggle="tooltip" title="" data-original-title="删除"><i
+        <a class="delete ml10" href="javascript:void(0)" data-toggle="tooltip" title="" data-original-title="删除"><i
                 class="glyphicon glyphicon-remove"></i></a>　
     </div>
 </dev>
