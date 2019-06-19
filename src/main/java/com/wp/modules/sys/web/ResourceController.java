@@ -1,75 +1,57 @@
-//package com.wpm.modules.system.web;
-//
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//
-//import com.wpm.core.annotation.SystemLog;
-//import com.wpm.modules.system.entity.Resource;
-//import com.wpm.modules.system.enums.ResourceType;
-//import com.wpm.modules.system.service.ResourceService;
-//import com.wpm.utils.BaseController;
-//import com.wpm.utils.Result;
-//
-//import tk.mybatis.mapper.weekend.Weekend;
-//
-//import javax.validation.Valid;
-//
-///**
-// * 
-// * @Description： 资源管理
-// * @author [ Wenfeng.Huang ] on [2018年8月24日下午5:30:57]
-// * @Modified By： [修改人] on [修改日期] for [修改说明]
-// *
-// */
-//@Controller
-//@RequestMapping("/resource")
-//public class ResourceController extends BaseController{
-//
-//    @Autowired
-//    private ResourceService resourceService;
-//
-//    @ModelAttribute("types")
-//    public ResourceType[] resourceTypes() {
-//        return ResourceType.values();
-//    }
-//
-//    @RequiresPermissions("resource:view")
-//    @GetMapping
-//    public String page(Model model) {
-//        Weekend<Resource> weekend = Weekend.of(Resource.class);
-//        weekend.setOrderByClause("priority");
-//        model.addAttribute("resourceList", resourceService.find(weekend));
-//        return "system/resource";
-//    }
-//
-//    @ResponseBody
-//    @RequiresPermissions("resource:create")
-//    @SystemLog("资源管理创建资源")
-//    @PostMapping("/create")
-//    public Result<?> create(@Valid Resource resource) {
-//        resourceService.createResource(resource);
-//        return Result.success();
-//    }
-//
-//    @ResponseBody
-//    @RequiresPermissions("resource:update")
-//    @SystemLog("资源管理更新资源")
-//    @PostMapping("/update")
-//    public Result<?> update(@Valid Resource resource) {
-//        resourceService.updateResource(resource);
-//        return Result.success();
-//    }
-//
-//    @ResponseBody
-//    @RequiresPermissions("resource:delete")
-//    @SystemLog("资源管理删除资源")
-//    @PostMapping("/delete")
-//    public Result<?> delete(@RequestParam("id") Long id) {
-//        resourceService.deleteResource(id);
-//        return Result.success();
-//    }
-//
-//}
+package com.wp.modules.sys.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.wp.common.Result;
+import com.wp.modules.sys.entity.Resource;
+import com.wp.modules.sys.service.ResourceService;
+
+/**
+ * 
+ * @Description： 资源管理
+ * @author [ Wenfeng.Huang ] on [2018年8月24日下午5:30:57]
+ * @Modified By： [修改人] on [修改日期] for [修改说明]
+ *
+ */
+@Controller
+@RequestMapping("/resource")
+public class ResourceController {
+
+    @Autowired
+    private ResourceService resourceService;
+
+    @GetMapping
+    public String page(Model model) {
+        model.addAttribute("resourceList", resourceService.findAll());
+        return "system/resource";
+    }
+
+    @ResponseBody
+    @PostMapping("/create")
+    public Result<?> create(Resource resource) {
+        resourceService.create(resource);
+        return Result.success();
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public Result<?> update(Resource resource) {
+        resourceService.update(resource);
+        return Result.success();
+    }
+
+    @ResponseBody
+    @PostMapping("/delete")
+    public Result<?> delete(@RequestParam("id") Long id) {
+        resourceService.delete(id);
+        return Result.success();
+    }
+
+}

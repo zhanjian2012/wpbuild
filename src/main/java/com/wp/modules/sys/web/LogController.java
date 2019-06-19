@@ -20,7 +20,7 @@ import com.wp.modules.sys.service.LogService;
  */
 @Controller
 @RequestMapping("/log")
-public class LogController{
+public class LogController {
 
     @Autowired
     private LogService logService;
@@ -31,7 +31,7 @@ public class LogController{
     }
 
     @ResponseBody
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public PageResult<Log> list(Log log) {
         return logService.findByPage(log);
     }
