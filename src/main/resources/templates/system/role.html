@@ -114,6 +114,21 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
+                    <div class="form-group">
+                    	<label class="col-sm-2 width-120 control-label" for="resourceIds">是否可用:</label>
+                        <div class="col-sm-9 padding-left-0">
+                  			<div class="radio">
+			                    <label>
+			                      <input type="radio" name="available" value="true" checked="">
+			                      	可用
+			                    </label>
+			                    <label style="margin-left: 20px;">
+			                      <input type="radio" name="available" value="false">
+			                      	禁用
+			                    </label>
+			                  </div>
+		                  </div>
+	                </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -127,46 +142,6 @@
     </div>
 </div>
 
-<!-- edit Modal -->
-<!-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="editModalLabel">修改角色</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editForm">
-                    <input type="hidden" name="id"/>
-                    <div class="form-group">
-                        <label class="control-label" for="role"><span class="asterisk">*</span>角色名:</label>
-                        <input id="editRole" type="text" class="form-control" name="role" placeholder="输入角色名" minlength="2" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="description">角色描述:</label>
-                        <input id="editDescription" type="text" class="form-control" name="description" placeholder="输入角色描述">
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="resourceIds"><span class="asterisk">*</span>拥有的资源列表:</label>
-                        <input type="hidden" id="editResourceIds" name="resourceIds" required>
-                        <input type="text" class="form-control" id="editResourceName" name="resourceNames" readonly required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" form="editForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#editForm',url:'@{/role/update}',after:'$.myAction.refreshTable'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <!-- delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
