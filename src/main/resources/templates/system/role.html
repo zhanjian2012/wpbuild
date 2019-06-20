@@ -87,40 +87,48 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="addModalLabel">添加角色</h4>
+                <h4 class="modal-title" id="addModalLabel">新增角色</h4>
             </div>
             <div class="modal-body">
-                <form id="addForm">
+                <form id="addForm" class="form-horizontal" onsubmit="return false;">
+                    <input type="hidden" name="id"/>
                     <div class="form-group">
-                        <label class="control-label" for="role"><span class="asterisk">*</span>角色名:</label>
-                        <input id="role" type="text" class="form-control" name="role" placeholder="输入角色名" minlength="2" required>
-                        <div class="help-block with-errors"></div>
+                        <label  class="col-sm-2 width-120 control-label" for="role"><span class="asterisk">*</span>角色名称:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" name="role" id="role" placeholder="角色名称" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="description">角色描述:</label>
-                        <input id="description" type="text" class="form-control" name="description" placeholder="输入角色描述">
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="description">角色描述:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input id="editDescription" type="text" class="form-control" name="description" placeholder="输入角色描述">
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="resourceIds"><span class="asterisk">*</span>拥有的资源列表:</label>
-                        <input type="hidden" id="resourceIds" name="resourceIds" required>
-                        <input type="text" class="form-control" id="resourceName" name="resourceNames" readonly required>
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="resourceIds"><span class="asterisk">*</span>资源列表:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="hidden" id="editResourceIds" name="resourceIds" required>
+	                        <input type="text" class="form-control" id="editResourceName" name="resourceNames" readonly required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/role/create}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#addForm',url:'@{/role/save}',after:'$.myAction.refreshContent'}">
                     确定
                 </button>
             </div>
         </div>
     </div>
 </div>
+
 <!-- edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+<!-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -158,7 +166,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
@@ -182,7 +190,7 @@
     </div>
 </div>
 <div id="actionButtons" class="admin-hide">
-    <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>　
+<!--     <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>　 -->
     <a shiro:hasPermission="role:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
     <a shiro:hasPermission="role:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
 </div>
@@ -237,6 +245,7 @@
     }
 
     function editAfter(obj, row) {
+    	$("#addModalLabel").html("新增角色");
         var treeObj = $.fn.zTree.getZTreeObj("tree");
         treeObj.destroy();
         $.fn.zTree.init($("#tree"), setting, zNodes);
@@ -248,13 +257,10 @@
     }
 
     window.actionEvents = {
-        'click .like': function (e, value, row, index) {
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
-        },
         'click .edit': function (e, value, row, index) {
-            $('#editModal').modal('show')
-            $('#editForm').fillForm(row);
+        	$("#addModalLabel").html("修改角色");
+            $('#addModal').modal('show')
+            $('#addForm').fillForm(row);
             console.log(value, row, index);
         },
         'click .remove': function (e, value, row, index) {
@@ -286,6 +292,7 @@
         }
     };
     var resourceList = [[${resourceList}]];
+    console.log(resourceList)
     var zNodes = [];
     for (var i in resourceList) {
         zNodes.push({id: resourceList[i].id, pId: resourceList[i].parentId, name: resourceList[i].name});

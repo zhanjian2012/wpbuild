@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.wp.common.PageResult;
 import com.wp.common.Result;
 import com.wp.modules.sys.entity.Role;
+import com.wp.modules.sys.service.ResourceService;
 import com.wp.modules.sys.service.RoleService;
 
 /**
@@ -31,10 +32,13 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private ResourceService resourceService;
+
 
     @GetMapping
     public String page(Model model) {
-    	model.addAttribute("resourceList", roleService.list());
+    	model.addAttribute("resourceList", resourceService.list());
         return "system/role";
     }
 
