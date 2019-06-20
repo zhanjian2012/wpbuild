@@ -1,129 +1,56 @@
-//package com.wpm.modules.system.service.impl;
-//
-//import com.github.pagehelper.PageHelper;
-//import com.wpm.modules.system.dto.RoleDto;
-//import com.wpm.modules.system.entity.Resource;
-//import com.wpm.modules.system.entity.Role;
-//import com.wpm.modules.system.mapper.RoleMapper;
-//import com.wpm.modules.system.query.RoleQuery;
-//import com.wpm.modules.system.service.ResourceService;
-//import com.wpm.modules.system.service.RoleService;
-//import com.wpm.utils.PageResultSet;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.util.CollectionUtils;
-//import org.springframework.util.StringUtils;
-//
-//import tk.mybatis.mapper.weekend.Weekend;
-//import tk.mybatis.mapper.weekend.WeekendCriteria;
-//
-//import java.util.*;
-//
-//@Service
-//public class RoleServiceImpl implements RoleService {
-//
-//    @Autowired
-//    private RoleMapper roleMapper;
-//
-//    @Autowired
-//    private ResourceService resourceService;
-//
-//    @Override
-//    public PageResultSet<RoleDto> findByPage(RoleQuery roleQuery) {
-//        PageHelper.offsetPage(roleQuery.getOffset(), roleQuery.getLimit());
-//        if(!StringUtils.isEmpty(roleQuery.getOrderBy())) {
-//            PageHelper.orderBy(roleQuery.getOrderBy());
-//        }
-//        Weekend<Role> example = Weekend.of(Role.class);
-//        WeekendCriteria<Role, Object> criteria = example.weekendCriteria();
-//        if(!StringUtils.isEmpty(roleQuery.getRole())) {
-//            criteria.andLike(Role::getRole,"%" + roleQuery.getRole() + "%");
-//        }
-//        if(!StringUtils.isEmpty(roleQuery.getDescription())) {
-//            criteria.andLike(Role::getDescription,"%" + roleQuery.getDescription() + "%");
-//        }
-//        PageResultSet<RoleDto> resultSet = new PageResultSet<>();
-//        List<RoleDto> dtoList = new ArrayList<>();
-//        roleMapper.selectByExample(example).forEach(r -> {
-//            RoleDto dto = new RoleDto(r);
-//            dto.setResourceNames(getResourceNames(r.getResourceIdList()));
-//            dtoList.add(dto);
-//        });
-//        long total = roleMapper.selectCountByExample(example);
-//        resultSet.setRows(dtoList);
-//        resultSet.setTotal(total);
-//        return resultSet;
-//    }
-//
-//    private String getResourceNames(Collection<Long> resourceIds) {
-//        if (CollectionUtils.isEmpty(resourceIds)) {
-//            return "";
-//        }
-//        StringBuilder s = new StringBuilder();
-//        for (Long resourceId : resourceIds) {
-//            Resource resource = resourceService.findOne(resourceId);
-//            if (resource != null) {
-//                s.append(resource.getName());
-//                s.append(",");
-//            }
-//        }
-//        if (s.length() > 0) {
-//            s.deleteCharAt(s.length() - 1);
-//        }
-//        return s.toString();
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void createRole(Role role) {
-//        roleMapper.insertSelective(role);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void updateRole(Role role) {
-//        roleMapper.updateByPrimaryKeySelective(role);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void deleteRole(Long roleId) {
-//        roleMapper.deleteByPrimaryKey(roleId);
-//    }
-//
-//    @Override
-//    public Role findOne(Long roleId) {
-//        return roleMapper.selectByPrimaryKey(roleId);
-//    }
-//
-//    @Override
-//    public List<Role> findAll() {
-//        return roleMapper.selectAll();
-//    }
-//
-//    @Override
-//    public Set<String> findRoles(Long... roleIds) {
-//        Set<String> roles = new HashSet<>();
-//        for (Long roleId : roleIds) {
-//            Role role = findOne(roleId);
-//            if (role != null) {
-//                roles.add(role.getRole());
-//            }
-//        }
-//        return roles;
-//    }
-//
-//    @Override
-//    public Set<String> findPermissions(Long[] roleIds) {
-//        Set<Long> resourceIds = new HashSet<>();
-//        for (Long roleId : roleIds) {
-//            Role role = findOne(roleId);
-//            if (role != null) {
-//                resourceIds.addAll(role.getResourceIdList());
-//            }
-//        }
-//        return resourceService.findPermissions(resourceIds);
-//    }
-//}
+package com.wp.modules.sys.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wp.common.PageResult;
+import com.wp.modules.sys.entity.Resource;
+import com.wp.modules.sys.entity.Role;
+import com.wp.modules.sys.mapper.RoleMapper;
+import com.wp.modules.sys.service.ResourceService;
+import com.wp.modules.sys.service.RoleService;
+
+
+@Service
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>  implements RoleService {
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private ResourceService resourceService;
+
+    @Override
+    public PageResult<Role> findByPage(Role role) {
+    	QueryWrapper<Role> wrapper = new QueryWrapper<>();
+    	wrapper.like(!StringUtils.isEmpty(role.getRole()), "role", role.getRole())
+    		   .like(!StringUtils.isEmpty(role.getDescription()), "description", role.getDescription())
+    		   .orderBy(!StringUtils.isEmpty(role.getSort()), role.isAsc(), role.getSort());
+    	
+    	IPage<Role> page = roleMapper.selectPage(new Page<>(role.getOffset(), role.getLimit()), wrapper);
+    	if(!page.getRecords().isEmpty()) {
+    		page.getRecords().forEach(r -> {
+    			if(!StringUtils.isEmpty(r.getResourceIds())) {
+    				StringBuilder s = new StringBuilder();
+    		        for (String resourceId : r.getResourceIds().split(",")) {
+    		            Resource resource = resourceService.getById(resourceId);
+    		            if (resource != null) {
+    		                s.append(resource.getName()).append(",");
+    		            }
+    		        }
+    		        if (s.length() > 0) {
+    		            s.deleteCharAt(s.length() - 1);
+    		        }
+    		        r.setResourceNames(s.toString());
+    			}
+    		});
+    	}
+    	return new PageResult<>(page);
+    }
+
+}

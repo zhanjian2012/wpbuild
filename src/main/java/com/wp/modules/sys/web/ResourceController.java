@@ -3,6 +3,7 @@ package com.wp.modules.sys.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,12 @@ public class ResourceController {
     @ResponseBody
     @PostMapping("/save")
     public Result<?> save(Resource resource) {
+    	Resource parent = resourceService.getById(resource.getParentId());
+        resource.setParentIds(parent.makeSelfAsParentIds());
+        resource.setAvailable(true);
+        if (resource.getType() == ResourceType.MENU && StringUtils.isEmpty(resource.getUrl())) {
+            resource.setUrl("#");
+        }
     	resourceService.saveOrUpdate(resource);
         return Result.success();
     }
