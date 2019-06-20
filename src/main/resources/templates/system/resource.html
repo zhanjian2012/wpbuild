@@ -5,7 +5,7 @@
     /*按钮*/
     .icon_div a {
         display: inline-block;
-        width: 27px;
+        width: 0;
         height: 20px;
         cursor: pointer;
     }
@@ -113,7 +113,8 @@
     }
 
     .btn-group > a {
-        padding-left: 10px;
+    	width: 0;
+/*         padding-left: 10px; */
     }
 
     .box-body {
@@ -171,11 +172,14 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="addModalLabel">添加资源</h4>
+                <h4 class="modal-title" id="addModalLabel">新增资源</h4>
             </div>
             <div class="modal-body">
                 <form id="addForm" class="form-horizontal" onsubmit="return false;">
+                    <input type="hidden" name="id" required/>
+                    <input type="hidden" name="available" required/>
                     <input type="hidden" name="parentId" required/>
+                    <input type="hidden" name="parentIds" required/>
                     <div class=form-group>
                         <label class="col-sm-2 width-120 control-label" for="parentName">上级节点:</label>
                         <div class="col-sm-9 padding-left-0">
@@ -227,62 +231,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/resource/create}',after:'$.myAction.refreshContent'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="editModalLabel">添加资源</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editForm" class="form-inline" onsubmit="return false;">
-                    <input type="hidden" name="id" required/>
-                    <input type="hidden" name="available" required/>
-                    <input type="hidden" name="parentId" required/>
-                    <input type="hidden" name="parentIds" required/>
-                    <div class="form-group">
-                        <label for="name"><span class="asterisk">*</span>资源名称:</label>
-                        <input type="text" class="form-control" name="name" id="editName" placeholder="资源的名称" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editType"><span class="asterisk">*</span>资源类型:</label>
-                        <select class="form-control" name="type" id="editType">
-                            <option th:each="type : ${types}" th:value="${type}" th:text="${type.name}">资源类型不存在</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editUrl">URL路径:</label>
-                        <input type="text" class="form-control" name="url" id="editUrl" placeholder="资源的URL路径，‘#’+资源名，或者站外地址">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editPermission">权限字符串:</label>
-                        <input type="text" class="form-control" name="permission" id="editPermission" placeholder="权限控制字符串，不填说明不做权限控制">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editIcon">图标:</label>
-                        <input type="text" class="form-control" name="icon" id="editIcon" placeholder="支持 Glyphicons 和 FontAwesome 图标，只支持菜单">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editPriority">排序:</label>
-                        <input type="number" class="form-control" name="priority" id="editPriority" placeholder="资源的排序">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" form="editForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#editForm',url:'@{/resource/update}',after:'$.myAction.refreshContent'}">
+                        data-action="{type:'submit',form:'#addForm',url:'@{/resource/save}',after:'$.myAction.refreshContent'}">
                     确定
                 </button>
             </div>
@@ -338,6 +287,7 @@
             alert(JSON.stringify(node));
         }
         createChild = function (tId) {
+        	$("#addModalLabel").html("新增资源");
             var treeObj = $.fn.zTree.getZTreeObj("dataTree");
             var node = treeObj.getNodeByTId(tId);
             $('#addForm [name="parentId"]').val(node.id);
@@ -346,15 +296,17 @@
         };
 
         update = function (tId) {
+        	$("#addModalLabel").html("修改资源");
             var treeObj = $.fn.zTree.getZTreeObj("dataTree");
             var node = treeObj.getNodeByTId(tId);
             // 将值赋给编辑表单
-            $('#editForm').fillForm(node);
-            $('#editForm [name="parentId"]').val(node.pId ? node.pId : "0");
-            $('#editForm [name="url"]').val(node.rUrl);
-            $('#editForm [name="icon"]').val(node.rIcon);
+            $('#addForm').fillForm(node);
+            $('#addForm [name="parentName"]').val(findParentName(node.pId));
+            $('#addForm [name="parentId"]').val(node.pId ? node.pId : "0");
+            $('#addForm [name="url"]').val(node.rUrl);
+            $('#addForm [name="icon"]').val(node.rIcon);
             $(this).validator('validate');
-            $('#editModal').modal('show');
+            $('#addModal').modal('show');
         };
 
         remove = function (tId) {
@@ -452,12 +404,13 @@
 
         function formatHandle(treeNode) {
             var $actionButtons = $('#actionButtons').clone();
-            $actionButtons.find('.like').attr('onclick', 'like("' + treeNode.tId + '")');
+//             $actionButtons.find('.like').attr('onclick', 'like("' + treeNode.tId + '")');
             $actionButtons.find('.add').attr('onclick', 'createChild("' + treeNode.tId + '")');
             $actionButtons.find('.edit').attr('onclick', 'update("' + treeNode.tId + '")');
             $actionButtons.find('.delete').attr('onclick', 'remove("' + treeNode.tId + '")');
-            if (treeNode.isParent == true) {
+            if (treeNode.pId == null) {
                 $actionButtons.find('.delete').remove();
+                $actionButtons.find('.add').css("margin-left", "-3px");
             }
             return $actionButtons.html();
         }
@@ -465,6 +418,13 @@
         //初始化数据
         query();
 
+        function findParentName(pid) {
+        	for (var i in resourceList) {
+                if(pid == resourceList[i].id) {
+                	return resourceList[i].name;
+                }
+            }
+        }
     })
 </script>
 </html>

@@ -3,6 +3,7 @@ package com.wp.modules.sys.entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wp.common.BaseQuery;
@@ -15,13 +16,13 @@ public class Resource extends BaseQuery {
 	/**
      * 编号
      */
-    @TableId
+	@TableId(type = IdType.AUTO)
     private Long id;
 
-    @NotBlank(message = "资源名称不能为空")
     /**
      * 资源名称
      */
+    @NotBlank(message = "资源名称不能为空")
     private String name;
     /**
      * 资源类型   0：目录  MENU：菜单   BUTTON：按钮
@@ -64,19 +65,14 @@ public class Resource extends BaseQuery {
     private Boolean leaf = Boolean.FALSE;
     
     public enum ResourceType {
-    	
     	MENU("菜单"), BUTTON("按钮");
-
     	private final String name;
-
         private ResourceType(String name) {
             this.name = name;
         }
-
 		public String getName() {
 			return name;
 		}
-
     }
     
     public Long getId() {

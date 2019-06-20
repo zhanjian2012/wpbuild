@@ -41,23 +41,16 @@ public class ResourceController {
     }
 
     @ResponseBody
-    @PostMapping("/create")
-    public Result<?> create(Resource resource) {
-        resourceService.create(resource);
-        return Result.success();
-    }
-
-    @ResponseBody
-    @PostMapping("/update")
-    public Result<?> update(Resource resource) {
-        resourceService.update(resource);
+    @PostMapping("/save")
+    public Result<?> save(Resource resource) {
+    	resourceService.saveOrUpdate(resource);
         return Result.success();
     }
 
     @ResponseBody
     @PostMapping("/delete")
     public Result<?> delete(@RequestParam("id") Long id) {
-        resourceService.delete(id);
+        resourceService.removeById(id);
         return Result.success();
     }
 
