@@ -32,8 +32,8 @@
                     <div id="toolbar">
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
-                                <label class="query-label" for="searchRole">角色名称</label>
-                                <input type="text" class="form-control input-sm" name="role" id="searchRole" placeholder="请输入角色名称">
+                                <label class="query-label" for="searchRole">角色名</label>
+                                <input type="text" class="form-control input-sm" name="role" id="searchRole" placeholder="请输入角色名">
                                 <label class="query-label" for="searchDescription">角色描述</label>
                                 <input type="text" class="form-control input-sm" name="description" id="searchDescription" placeholder="请输入角色描述">
                             </div>
@@ -93,9 +93,9 @@
                 <form id="addForm" class="form-horizontal" onsubmit="return false;">
                     <input type="hidden" name="id"/>
                     <div class="form-group">
-                        <label  class="col-sm-2 width-120 control-label" for="role"><span class="asterisk">*</span>角色名称:</label>
+                        <label  class="col-sm-2 width-120 control-label" for="role"><span class="asterisk">*</span>角色名:</label>
                         <div class="col-sm-9 padding-left-0">
-	                        <input type="text" class="form-control" name="role" id="role" placeholder="角色名称" required>
+	                        <input type="text" class="form-control" name="role" id="role" placeholder="角色名" required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
             columns: [
                 {field: 'state', checkbox: true},
                 {field: 'id', title: '编号', sortable: true, halign: 'left'},
-                {field: 'role', title: '角色名称', sortable: true, halign: 'left'},
+                {field: 'role', title: '角色名', sortable: true, halign: 'left'},
                 {field: 'description', title: '角色描述', sortable: true, halign: 'left'},
                 {field: 'resourceNames', title: '拥有的资源', sortable: true, halign: 'left'},
                 {field: 'available', title: '是否可用', sortable: true, halign: 'left'},
@@ -207,7 +207,7 @@
     // 数据表格展开内容
     function detailFormatter(index, row) {
 		var html = "<p><b class='margin-left-32'>序号：</b>" + row.id + "</p>" +
-		   		   "<p><b class='margin-left-32'>角色名称：</b>" + row.role + "</p>" +
+		   		   "<p><b class='margin-left-32'>角色名：</b>" + row.role + "</p>" +
 				   "<p><b class='margin-left-32'>角色描述：</b>" + row.description + "</p>" +
 				   "<p><b class='margin-left-32'>拥有资源：</b>" + row.resourceNames + "</p>" +
 				   "<p><b class='margin-left-32'>是否可用：</b>" + row.available + "</p>";

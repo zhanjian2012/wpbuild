@@ -12,11 +12,17 @@ import org.springframework.util.StringUtils;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wp.common.BaseQuery;
 
 @TableName("sys_user")
-public class User {
+public class User extends BaseQuery {
 
-    /**
+    /**   
+	 * @fields serialVersionUID :  
+	 */ 
+	private static final long serialVersionUID = 1L;
+	/**
      * 编号
      */
     @TableId
@@ -35,12 +41,14 @@ public class User {
     /**
      * 密码
      */
+    @JsonIgnore
     @NotBlank(message = "密码不能为空")
     @Min(value = 6,message = "密码不能低于6位")
     private String password;
     /**
      * 加密密码的盐
      */
+    @JsonIgnore
     private String salt;
     /**
      * 拥有的角色列表
@@ -50,10 +58,11 @@ public class User {
     @TableField(exist = false)
     private List<Long> roleIdList;
 
-    private String groupIds;
-
     @TableField(exist = false)
-    private List<Long> groupIdList;
+    private String organizationName;
+    
+    @TableField(exist = false)
+    private String roleNames;
 
     private Boolean locked = Boolean.FALSE;
 
@@ -144,41 +153,6 @@ public class User {
         this.roleIdList = roleIdList;
     }
 
-    public String getGroupIds() {
-        return groupIds;
-    }
-
-    public void setGroupIds(String groupIds) {
-        String[] groupIdStrs = groupIds.split(",");
-        for (String groupId : groupIdStrs) {
-            if (StringUtils.isEmpty(groupId)) {
-                continue;
-            }
-            getGroupIdList().add(Long.valueOf(groupId));
-        }
-        this.groupIds = groupIds;
-    }
-
-    public List<Long> getGroupIdList() {
-        if (groupIdList == null) {
-            groupIdList = new ArrayList<>();
-        }
-        return groupIdList;
-    }
-
-    public void setGroupIdList(List<Long> groupIdList) {
-        StringBuilder s = new StringBuilder();
-        for (Long groupId : groupIdList) {
-            s.append(groupId);
-            s.append(",");
-        }
-        if (s.length() > 0) {
-            s.deleteCharAt(s.length() - 1);
-        }
-        this.groupIds = s.toString();
-        this.groupIdList = groupIdList;
-    }
-
     public Boolean getLocked() {
         return locked;
     }
@@ -186,5 +160,21 @@ public class User {
     public void setLocked(Boolean locked) {
         this.locked = locked;
     }
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+	public String getRoleNames() {
+		return roleNames;
+	}
+
+	public void setRoleNames(String roleNames) {
+		this.roleNames = roleNames;
+	}
 
 }
