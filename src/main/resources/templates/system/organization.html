@@ -105,9 +105,15 @@
                             <div class="panel-body">
                                 <form class="form-horizontal" onsubmit="return false;" id="editForm">
                                     <input type="hidden" name="id" required>
-                                    <input type="hidden" name="available" required>
-                                    <input type="hidden" name="parentId" required>
+                                    <input type="hidden" name="parentId" required value="0">
                                     <input type="hidden" name="parentIds" required>
+                                    <div class="form-group">
+				                        <label class="col-sm-2 control-label" for="parentName">上级节点</label>
+				                        <div class="col-sm-10">
+					                        <input type="text" class="form-control" id="parentName" name="parentName" placeholder="无" readonly required/>
+					                        <div class="help-block with-errors"></div>
+				                        </div>
+				                    </div>
                                     <div class="form-group">
                                         <label for="name" class="col-sm-2 control-label">组织机构名称<span class="asterisk"></span></label>
                                         <div class="col-sm-10">
@@ -116,14 +122,20 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="editLeaf"><span class="asterisk">*</span>叶子节点:</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" name="leaf" id="editLeaf">
-                                                <option value="0" selected>否</option>
-                                                <option value="1">是</option>
-                                            </select>
-                                        </div>
-                                    </div>
+				                    	<label class="col-sm-2 control-label" for="resourceIds">是否可用</label>
+				                        <div class="col-sm-10">
+				                  			<div class="radio">
+							                    <label>
+							                      <input type="radio" name="available" value="true" checked="">
+							                      	可用
+							                    </label>
+							                    <label style="margin-left: 20px;">
+							                      <input type="radio" name="available" value="false">
+							                      	禁用
+							                    </label>
+							                  </div>
+						                  </div>
+					                </div>
                                     <div class="form-group">
                                         <label for="eidtPriority" class="col-sm-2 control-label">序号</label>
                                         <div class="col-sm-10">
@@ -133,12 +145,12 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10 text-right">
-                                            <shiro:hasPermission name="organization:update">
+                                            <shiro:hasPermission name="organization:save">
                                                 <button type="submit" form="editForm" class="btn btn-primary"
-                                                        data-action="{type:'submit',form:'#editForm',url:'@{/organization/update}',after:'$.myAction.refreshContent'}">
+                                                        data-action="{type:'submit',form:'#editForm',url:'@{/organization/save}',after:'$.myAction.refreshContent'}">
                                                     保存
                                                 </button>
-                                                <button type="reset" class="btn btn-warning">重置</button>
+                                                <button type="reset" class="btn">重置</button>
                                             </shiro:hasPermission>
                                         </div>
                                     </div>
@@ -156,53 +168,6 @@
     </div>
     <!-- /.row -->
 </section>
-
-<!-- add Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="addModalLabel">添加节点</h4>
-            </div>
-            <div class="modal-body">
-                <form id="addForm" onsubmit="return false;">
-                    <input type="hidden" name="parentId" required/>
-                    <div class="form-group">
-                        <label class="control-label" for="parentName">上级节点:</label>
-                        <input type="text" class="form-control" id="parentName" name="parentName" placeholder="上级节点不存在" readonly required/>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="name">节点名称:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="节点的名称" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="leaf"><span class="asterisk">*</span>叶子节点:</label>
-                        <select class="form-control" name="leaf" id="leaf">
-                            <option value="0" selected>否</option>
-                            <option value="1">是</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="priority">排序:</label>
-                        <input type="text" class="form-control" name="priority" id="priority" placeholder="节点的名称" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/organization/create}',after:'$.myAction.refreshContent'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
@@ -231,14 +196,13 @@
 <!-- 隐藏的右键菜单 -->
 <div id="rMenu">
     <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenu3">
-        <li shiro:hasPermission="organization:create" data-toggle="modal" data-target="#addModal"><a href="#organization" id="rAdd-chi">添加子节点</a></li>
+        <li shiro:hasPermission="organization:create"><a href="#organization" class="add-child" data-id="" data-name="" data-toggle="tooltip">添加子节点</a></li>
         <!--<li role="separator" class="divider"></li>-->
         <li shiro:hasPermission="organization:delete" data-toggle="modal" data-target="#deleteModal"><a href="#organization" id="rDel">删除节点</a></li>
     </ul>
 </div>
-<script type="text/javascript">
+<script th:inline="javascript" type="text/javascript">
     $(function () {
-
         var rMenu = $('#rMenu'),
             setting = {
                 data: {
@@ -253,29 +217,33 @@
                     expandSpeed: 300,
                     // 设置树展开的动画速度，IE6下面没效果
                 },
-                async: {
-                    enable: true,
-                    url: getAsyncUrl
-                },
                 callback: {
-                    asyncError: zTreeOnAsyncError, // 加载错误的fun
                     beforeClick: beforeClick, // 捕获单击节点之前的事件回调函数
                     onRightClick: OnRightClick
                 }
             }, zNodes = [];
 
+        var orgList = [[${orgList}]];
+        for (var i in orgList) {
+            zNodes.push({
+                id: orgList[i].id,
+                pId: orgList[i].parentId,
+                name: orgList[i].name,
+                available: orgList[i].available,
+                priority: orgList[i].priority
+            });
+        }
+        
         $.fn.zTree.init($("#tree"), setting, zNodes);
 
-        // 获取异步连接
-        function getAsyncUrl(treeId, treeNode) {
-            return treeNode == undefined ? CONTEXT_PATH + '/organization/tree' : CONTEXT_PATH + '/organization/tree?pId=' + treeNode.id;
+        function findParentName(pid) {
+        	for (var i in orgList) {
+                if(pid == orgList[i].id) {
+                	return orgList[i].name;
+                }
+            }
         }
-
-        // 加载错误的fun
-        function zTreeOnAsyncError(event, treeId, treeNode) {
-            alert('数据加载失败!');
-        }
-
+        
         // 点击之后的动作
         function beforeClick(treeId, treeNode) {
             // 销毁表单验证
@@ -283,7 +251,15 @@
             // 取消被选中状态
             $('#editForm [type="radio"]').removeAttr('checked');
             // 将值赋给编辑表单
-            $('#editForm').fillForm(treeNode.obj);
+            var _data_ = {
+            		"id":treeNode.id,
+            		"parentId":treeNode.pId,
+            		"name":treeNode.name,
+            		"parentName":findParentName(treeNode.pId),
+            		"available":treeNode.available,
+            		"priority":treeNode.priority
+            }
+            $('#editForm').fillForm(_data_);
             $('#editForm [name="parentId"]').val(treeNode.pId ? treeNode.pId : "0");
         }
 
@@ -302,8 +278,13 @@
 
         // 显示右键菜单
         function showRMenu(x, y, id, pName, pId, treeNode) {
-            $('#addForm [name="parentId"]').val(id);
-            $('#addForm [name="parentName"]').val(pName);
+            /* $('#editForm [name="parentId"]').val(id);
+            $('#editForm [name="parentName"]').val(pName);
+            $('#editForm [name="name"]').val(123); */
+			debugger;
+            $(".add-child").attr("data-id", treeNode.id);
+            $(".add-child").attr("data-name", treeNode.name);
+            
             $('#deleteForm [name="id"]').val(id);
             $('#rMenu ul').show();
             // 是否父id为0
@@ -320,7 +301,7 @@
             }); // 设置右键菜单的位置、可见
             $("body").bind("mousedown", onBodyMouseDown);
         }
-
+        
         // 隐藏右键菜单
         function hideRMenu() {
             if (rMenu)
@@ -338,11 +319,20 @@
                 });
             }
         }
-
         //  rDel删除节点
         $('#rDel').click(function () {
             var id = $('#addForm [name="parentId"]').val();
         });
+    });
+    
+    //  rDel删除节点
+    $('.add-child').click(function () {
+    	$('#editForm [name="id"]').val("");
+    	$('#editForm [name="parentId"]').val($(this).attr("data-id"));
+        $('#editForm [name="parentName"]').val($(this).attr("data-name"));
+        $('#editForm [name="name"]').val("");
+        $('#editForm [name="available"]').attr("checked", true);
+        $('#editForm [name="priority"]').val(0);
     });
 </script>
 </html>

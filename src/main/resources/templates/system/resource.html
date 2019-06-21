@@ -283,8 +283,6 @@
         like = function (tId) {
             var treeObj = $.fn.zTree.getZTreeObj("dataTree");
             var node = treeObj.getNodeByTId(tId);
-            console.log(node);
-            alert(JSON.stringify(node));
         }
         createChild = function (tId) {
         	$("#addModalLabel").html("新增资源");
@@ -318,7 +316,6 @@
         };
         var resourceList = [[${resourceList}]];
         var zNodes = [];
-			console.log(resourceList)
         for (var i in resourceList) {
             zNodes.push({
                 id: resourceList[i].id,
