@@ -73,125 +73,81 @@
 </section>
 <!-- /.content -->
 
-<!-- add Modal -->
+<!-- edit Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="addModalLabel">添加用户</h4>
+                <h4 class="modal-title" id="editModalLabel">新增用户</h4>
             </div>
             <div class="modal-body">
-                <form id="addForm">
+                <form id="addForm" class="form-horizontal">
+                    <input type="hidden" name="id"/>
                     <div class="form-group">
-                        <label class="control-label" for="username"><span class="asterisk">*</span>用户名:</label>
-                        <input id="username" type="text" class="form-control" name="username" placeholder="输入用户名"
-                               minlength="3">
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="username"><span class="asterisk">*</span>用户名:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input id="editUsername" type="text" class="form-control" name="username" placeholder="输入用户名"
+	                               minlength="3" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="password"><span class="asterisk">*</span>密码:</label>
-                        <input type="password" id="password" class="form-control" minlength="6"
-                               name="password" placeholder="输入密码" required>
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="password"><span class="asterisk">*</span>密码:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="password" id="password" class="form-control" minlength="6" name="password" placeholder="输入密码" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="inputPasswordConfirm"><span
-                                class="asterisk">*</span>确认密码:</label>
-                        <input type="password" class="form-control" id="inputPasswordConfirm" minlength="6"
-                               data-match="#password" data-match-error="密码输入不一致。" name="chkpassowrd" placeholder="确认密码"
-                               required>
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="inputPasswordConfirm"><span class="asterisk">*</span>确认密码:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="password" class="form-control" id="inputPasswordConfirm" minlength="6"
+	                               data-match="#password" data-match-error="密码输入不一致。" name="chkpassowrd" placeholder="确认密码" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="organizationName"><span class="asterisk">*</span>所属组织:</label>
-                        <input type="text" class="form-control" id="organizationName" name="organizationName" readonly
-                               required>
-                        <input type="hidden" id="organizationId" name="organizationId" readonly required>
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="organizationName"><span class="asterisk">*</span>所属组织:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <input type="text" class="form-control" id="editOrganizationName" name="organizationName"
+	                               readonly required>
+	                        <input type="hidden" id="editOrganizationId" name="organizationId" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="roleIds"><span class="asterisk">*</span>角色列表:</label>
-                        <select name="roleIds" id="roleIds" multiple class="form-control select2"
-                                data-placeholder="请从列表选择一项" required>
-                            <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.description}">
-                                角色不存在
-                            </option>
-                        </select>
-                        <div class="help-block with-errors"></div>
+                        <label class="col-sm-2 width-120 control-label" for="editRoleIds"><span class="asterisk">*</span>角色列表:</label>
+                        <div class="col-sm-9 padding-left-0">
+	                        <select name="roleIds" id="editRoleIds" multiple class="form-control select2"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="role: ${roleList}" th:value="${role.id}" th:text="${role.description}">角色不存在</option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="groupIds"><span class="asterisk">*</span>组列表:</label>
-                        <select name="groupIds" id="groupIds" multiple class="form-control select2"
-                                data-placeholder="请从列表选择一项" required>
-                            <option th:each="group : ${groupList}" th:value="${group.id}" th:text="${group.name}">
-                                用户组不存在
-                            </option>
-                        </select>
-                        <div class="help-block with-errors"></div>
-                    </div>
+                    	<label class="col-sm-2 width-120 control-label" for="locked">是否可用:</label>
+                        <div class="col-sm-9 padding-left-0">
+                  			<div class="radio">
+			                    <label>
+			                      <input type="radio" name="locked" value="true" checked="">
+			                      	可用
+			                    </label>
+			                    <label style="margin-left: 20px;">
+			                      <input type="radio" name="locked" value="false">
+			                      	禁用
+			                    </label>
+			                  </div>
+		                  </div>
+	                </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/user/create}',after:'$.myAction.refreshTable'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="editModalLabel">修改用户</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editForm">
-                    <input type="hidden" name="id"/>
-                    <div class="form-group">
-                        <label class="control-label" for="username"><span class="asterisk">*</span>用户名:</label>
-                        <input id="editUsername" type="text" class="form-control" name="username" placeholder="输入用户名"
-                               minlength="3" readonly required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="organizationName"><span class="asterisk">*</span>所属组织:</label>
-                        <input type="text" class="form-control" id="editOrganizationName" name="organizationName"
-                               readonly required>
-                        <input type="hidden" id="editOrganizationId" name="organizationId" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editRoleIds"><span class="asterisk">*</span>角色列表:</label>
-                        <select name="roleIds" id="editRoleIds" multiple class="form-control select2"
-                                data-placeholder="请从列表选择一项" required>
-                            <option th:each="role: ${roleList}" th:value="${role.id}" th:text="${role.description}">角色不存在</option>
-                        </select>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="editGroupIds"><span class="asterisk">*</span>组列表:</label>
-                        <select name="groupIds" id="editGroupIds" multiple class="form-control select2"
-                                data-placeholder="请从列表选择一项" required>
-                            <option th:each="group : ${groupList}" th:value="${group.id}" th:text="${group.name}">
-                                用户组不存在
-                            </option>
-                        </select>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" form="editForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#editForm',url:'@{/user/update}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#addForm',url:'@{/user/save}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -272,14 +228,9 @@
 
     function editAfter(obj, row) {
         var roleIdList = row.roleIdList;
-        var groupIdList = row.groupIdList;
         for (i in roleIdList) {
             var roleId = roleIdList[i];
-            $('#editForm').find('[name=roleIds]').find('option[value=' + roleId + ']').prop('selected', true);
-        }
-        for(i in groupIdList) {
-            var groupId = groupIdList[i];
-            $('#editForm').find('[name=groupIds]').find('option[value=' + groupId + ']').prop('selected', true);
+            $('#addForm').find('[name=roleIds]').find('option[value=' + roleId + ']').prop('selected', true);
         }
     }
 
@@ -288,15 +239,11 @@
     }
 
     window.actionEvents = {
-        'click .like': function (e, value, row, index) {
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
-        },
         'click .edit': function (e, value, row, index) {
-            $('#editModal').modal('show')
-            $('#editForm').fillForm(row);
+        	$("#editModalLabel").html("修改用户");
+            $('#addModal').modal('show')
+            $('#addForm').fillForm(row);
             editAfter('', row);
-            console.log(value, row, index);
         },
         'click .remove': function (e, value, row, index) {
             $('#deleteModal').modal('show');
@@ -385,5 +332,9 @@
     $.fn.zTree.init($("#tree"), setting, zNodes);
     $("#organizationName").click(showMenu);
     $("#editOrganizationName").click(showMenuOfEdit);
+    
+    $('#addModal').on('hide.bs.modal', function () {
+    	$("#editModalLabel").html("新增用户");
+   	})
 </script>
 </html>

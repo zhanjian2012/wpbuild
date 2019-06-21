@@ -16,7 +16,6 @@ import com.wp.common.PageResult;
 import com.wp.modules.sys.entity.Organization;
 import com.wp.modules.sys.entity.Role;
 import com.wp.modules.sys.entity.User;
-import com.wp.modules.sys.mapper.RoleMapper;
 import com.wp.modules.sys.mapper.UserMapper;
 import com.wp.modules.sys.service.OrganizationService;
 import com.wp.modules.sys.service.RoleService;
