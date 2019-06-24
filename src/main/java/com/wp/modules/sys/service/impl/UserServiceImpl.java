@@ -3,6 +3,10 @@ package com.wp.modules.sys.service.impl;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +18,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wp.common.PageResult;
 import com.wp.modules.sys.entity.Organization;
+import com.wp.modules.sys.entity.Resource;
 import com.wp.modules.sys.entity.Role;
 import com.wp.modules.sys.entity.User;
 import com.wp.modules.sys.mapper.UserMapper;
 import com.wp.modules.sys.service.OrganizationService;
+import com.wp.modules.sys.service.ResourceService;
 import com.wp.modules.sys.service.RoleService;
 import com.wp.modules.sys.service.UserService;
 
@@ -29,6 +35,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private ResourceService resourceService;
     
     @Autowired
     private OrganizationService organizationService;
@@ -62,5 +71,56 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     	}
     	return new PageResult<>(page);
     }
+
+	@Override
+	public Set<String> findRoles(String username) {
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+    	wrapper.like(!StringUtils.isEmpty(username), "username", username);
+    	List<User> users = userMapper.selectList(wrapper);
+    	if(users == null || users.isEmpty()) {
+    		return Collections.emptySet();
+    	}
+    	User user = users.get(0);
+    	if(StringUtils.isEmpty(user.getRoleIds())) {
+    		return Collections.emptySet();
+    	}
+    	Collection<Role> roles = roleService.listByIds(Arrays.asList(user.getRoleIds().split(",")));
+    	if(roles == null || roles.isEmpty()) {
+    		return Collections.emptySet();
+    	}
+    	Set<String> roleSet = new HashSet<>();
+		roles.forEach(role -> {
+			roleSet.add(role.getRole());
+		});
+		return roleSet;
+	}
+
+	@Override
+	public Set<String> findPermissions(String username) {
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+    	wrapper.like(!StringUtils.isEmpty(username), "username", username);
+    	List<User> users = userMapper.selectList(wrapper);
+    	if(users == null || users.isEmpty()) {
+    		return Collections.emptySet();
+    	}
+    	User user = users.get(0);
+    	if(StringUtils.isEmpty(user.getRoleIds())) {
+    		return Collections.emptySet();
+    	}
+    	Collection<Role> roles = roleService.listByIds(Arrays.asList(user.getRoleIds().split(",")));
+    	if(roles == null || roles.isEmpty()) {
+    		return Collections.emptySet();
+    	}
+    	Set<String> resourceIds = new HashSet<>();
+		roles.forEach(role -> {
+			Collection<Resource> resources = resourceService.listByIds(Arrays.asList(role.getResourceIds().split(",")));
+			if(resources != null && !resources.isEmpty()) {
+				resources.forEach(r -> {
+					resourceIds.add(r.getId().toString());
+				});
+			}
+		});
+		return resourceIds;
+	}
 
 }
