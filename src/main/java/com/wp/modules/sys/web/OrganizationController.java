@@ -2,6 +2,7 @@ package com.wp.modules.sys.web;
 
 import javax.validation.Valid;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ public class OrganizationController {
     private OrganizationService organizationService;
 
     @GetMapping
+    @RequiresPermissions("organization:view")
     public String page(Model model) {
     	model.addAttribute("orgList", organizationService.findAll());
         return "system/organization";
@@ -44,6 +46,7 @@ public class OrganizationController {
 
     @ResponseBody
     @PostMapping("/save")
+    @RequiresPermissions("organization:save")
     public Result<?> save(@Valid Organization organization) {
         organizationService.saveOrUpdate(organization);
         return Result.success();
@@ -51,6 +54,7 @@ public class OrganizationController {
 
     @ResponseBody
     @PostMapping("/delete")
+    @RequiresPermissions("organization:delete")
     public Result<?> delete(Long id) {
         organizationService.removeById(id);
         return Result.success();

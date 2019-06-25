@@ -196,7 +196,7 @@
 <!-- 隐藏的右键菜单 -->
 <div id="rMenu">
     <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenu3">
-        <li shiro:hasPermission="organization:create"><a href="#organization" class="add-child" data-id="" data-name="" data-toggle="tooltip">添加子节点</a></li>
+        <li shiro:hasPermission="organization:save"><a href="#organization" class="add-child" data-id="" data-name="" data-toggle="tooltip">添加子节点</a></li>
         <!--<li role="separator" class="divider"></li>-->
         <li shiro:hasPermission="organization:delete" data-toggle="modal" data-target="#deleteModal"><a href="#organization" id="rDel">删除节点</a></li>
     </ul>

@@ -111,16 +111,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     	if(roles == null || roles.isEmpty()) {
     		return Collections.emptySet();
     	}
-    	Set<String> resourceIds = new HashSet<>();
+    	Set<String> permissions = new HashSet<>();
 		roles.forEach(role -> {
 			Collection<Resource> resources = resourceService.listByIds(Arrays.asList(role.getResourceIds().split(",")));
 			if(resources != null && !resources.isEmpty()) {
 				resources.forEach(r -> {
-					resourceIds.add(r.getId().toString());
+					if(!StringUtils.isEmpty(r.getPermission())) {
+						permissions.add(r.getPermission());
+					}
 				});
 			}
 		});
-		return resourceIds;
+		return permissions;
 	}
 
 }

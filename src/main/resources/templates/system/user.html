@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">用户管理</a></li>
+        <li><a href="#">用户管a理</a></li>
         <li class="active">系统用户管理</li>
     </ol>
 </section>
@@ -41,12 +41,12 @@
                         </form>
                         <div class="btn-group btn-group-sm margin-top-15">
                             <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-                            <button shiro:hasPermission="user:create" type="button" id="addBtn" class="btn btn-default"
+                            <button shiro:hasPermission="user:save" type="button" id="addBtn" class="btn btn-default"
                                     data-toggle="modal"
                                     data-target="#addModal"><i class="glyphicon glyphicon-plus"></i> 新增
                             </button>
                             <!-- Indicates caution should be taken with this action -->
-                            <button shiro:hasPermission="user:update" type="button" id="editBtn" class="btn btn-default"
+                            <button shiro:hasPermission="user:save" type="button" id="editBtn" class="btn btn-default"
                                     data-toggle="modal"
                                     data-target="#editModal"
                                     data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
@@ -177,8 +177,7 @@
     </div>
 </div>
 <div id="actionButtons" class="admin-hide">
-<!--     <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>　 -->
-    <a shiro:hasPermission="user:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="user:save" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
     <a shiro:hasPermission="user:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
 </div>
 <!-- zTree -->
@@ -187,7 +186,6 @@
     <ul id="tree" class="ztree"></ul>
 </div>
 <script th:inline="javascript">
-
     var $table = $('#table');
 
     $(function () {

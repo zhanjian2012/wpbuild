@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.validation.Valid;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,7 @@ public class RoleController {
 
 
     @GetMapping
+    @RequiresPermissions("role:view")
     public String page(Model model) {
     	model.addAttribute("resourceList", resourceService.list());
         return "system/role";
@@ -44,12 +46,14 @@ public class RoleController {
 
     @ResponseBody
     @GetMapping("/list")
+    @RequiresPermissions("role:view")
     public PageResult<Role> list(Role role) {
         return roleService.findByPage(role);
     }
 
     @ResponseBody
     @PostMapping("/save")
+    @RequiresPermissions("role:save")
     public Result<?> save(@Valid Role role) {
         roleService.saveOrUpdate(role);
         return Result.success();
@@ -57,6 +61,7 @@ public class RoleController {
 
     @ResponseBody
     @PostMapping("/delete")
+    @RequiresPermissions("role:delete")
     public Result<?> delete(@RequestParam("id") Long[] ids) {
         Arrays.asList(ids).forEach(id-> roleService.removeById(id));
         return Result.success();

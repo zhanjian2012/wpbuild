@@ -1,5 +1,6 @@
 package com.wp.modules.sys.web;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class ResourceController {
     }
     
     @GetMapping
+    @RequiresPermissions("resource:view")
     public String page(Model model) {
         model.addAttribute("resourceList", resourceService.findAll());
         return "system/resource";
@@ -43,6 +45,7 @@ public class ResourceController {
 
     @ResponseBody
     @PostMapping("/save")
+    @RequiresPermissions("resource:save")
     public Result<?> save(Resource resource) {
     	Resource parent = resourceService.getById(resource.getParentId());
         resource.setParentIds(parent.makeSelfAsParentIds());
@@ -56,6 +59,7 @@ public class ResourceController {
 
     @ResponseBody
     @PostMapping("/delete")
+    @RequiresPermissions("resource:delete")
     public Result<?> delete(@RequestParam("id") Long id) {
         resourceService.removeById(id);
         return Result.success();

@@ -4,7 +4,7 @@ public enum ResultCodeEnum {
 
     OK("200", "处理成功"),
     BAD_REQUEST("400", "请求参数有误"),
-    UNAUTHORIZED("401", "未授权"),
+    UNAUTHORIZED("401", "功能未授权"),
     PARAMS_MISS("483", "缺少接口中必填参数"),
     PARAM_ERROR("484", "参数非法"),
     FAILED_DEL_OWN("485", "不能删除自己"),

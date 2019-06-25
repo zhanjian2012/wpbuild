@@ -1,5 +1,6 @@
 package com.wp.modules.sys.web;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +27,14 @@ public class LogController {
     private LogService logService;
 
     @GetMapping
+    @RequiresPermissions("log:view")
     public String page(Model model) {
         return "system/log";
     }
 
     @ResponseBody
     @GetMapping("/list")
+    @RequiresPermissions("log:view")
     public PageResult<Log> list(Log log) {
         return logService.findByPage(log);
     }

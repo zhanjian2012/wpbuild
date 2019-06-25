@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,7 @@ public class UserController {
     private RoleService roleService;
 
     @GetMapping
+    @RequiresPermissions("user:view")
     public String page(Model model) {
     	 model.addAttribute("organizationList", organizationService.list());
          model.addAttribute("roleList", roleService.list());
@@ -49,12 +51,14 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/list")
+    @RequiresPermissions("user:view")
     public PageResult<User> list(User user) {
         return userService.findByPage(user);
     }
 
     @ResponseBody
     @PostMapping("/save")
+    @RequiresPermissions("user:save")
     public Result<?> save(User user) {
         userService.saveOrUpdate(user);
         return Result.success();
@@ -62,6 +66,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/delete")
+    @RequiresPermissions("user:delete")
     public Result<?> delete(@RequestParam("id") Long[] ids, HttpServletRequest request) {
         Arrays.asList(ids).forEach(id -> userService.removeById(id));
         return Result.success();
