@@ -36,7 +36,7 @@
 
 /**左侧树二级菜单**/
 ul.treeview-menu > li {
-    margin-left: 20px;
+    margin-left: 15px;
     padding: 2px;
 }
 /**菜单选中字体颜色**/

@@ -1,9 +1,12 @@
 package com.wp.modules.sys.entity;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wp.common.BaseQuery;
@@ -74,6 +77,9 @@ public class Resource extends BaseQuery {
 			return name;
 		}
     }
+    
+    @TableField(exist=false)
+    private List<Resource> children;
     
     public Long getId() {
         return id;
@@ -174,4 +180,13 @@ public class Resource extends BaseQuery {
     public String getTypeName() {
     	return type.getName();
     }
+
+	public List<Resource> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Resource> children) {
+		this.children = children;
+	}
+    
 }
