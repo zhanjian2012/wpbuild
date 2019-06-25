@@ -23,5 +23,5 @@ public interface UserService extends IService<User> {
      * @return
      */
     Set<String> findPermissions(String username);
-
+    
 }

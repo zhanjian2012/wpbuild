@@ -86,21 +86,14 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 	
-//    配置自定义的密码比较器
-//    @Bean(name="credentialsMatcher")
-//    public CredentialsMatcher credentialsMatcher() {
-//    	RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(cacheManager);
-//        credentialsMatcher.setHashAlgorithmName("md5");
-//        credentialsMatcher.setHashIterations(2);
-//        credentialsMatcher.setStoredCredentialsHexEncoded(true);
-//        return credentialsMatcher;
-//    }
-	
-	
 	//配置自定义的密码比较器
     @Bean(name="credentialsMatcher")
     public CredentialsMatcher credentialsMatcher() {
-        return new RetryLimitHashedCredentialsMatcher();
+    	RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher();
+    	credentialsMatcher.setHashAlgorithmName("md5");
+    	credentialsMatcher.setHashIterations(2);
+    	credentialsMatcher.setStoredCredentialsHexEncoded(true);
+    	return credentialsMatcher;
     }
 	
 	/**
@@ -111,7 +104,7 @@ public class ShiroConfig {
     @Bean
     public UserRealm userRealm(CredentialsMatcher credentialsMatcher) {
         UserRealm userRealm = new UserRealm();
-//        userRealm.setCredentialsMatcher(credentialsMatcher);
+        userRealm.setCredentialsMatcher(credentialsMatcher);
         userRealm.setCachingEnabled(false);
         return userRealm;
     }

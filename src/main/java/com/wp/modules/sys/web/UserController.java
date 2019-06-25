@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.wp.common.PageResult;
 import com.wp.common.Result;
+import com.wp.core.shiro.PasswordHelper;
 import com.wp.modules.sys.entity.User;
 import com.wp.modules.sys.service.OrganizationService;
 import com.wp.modules.sys.service.RoleService;
@@ -40,6 +42,9 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+    
+    @Autowired
+    private PasswordHelper passwordHelper;
 
     @GetMapping
     @RequiresPermissions("user:view")
@@ -60,6 +65,15 @@ public class UserController {
     @PostMapping("/save")
     @RequiresPermissions("user:save")
     public Result<?> save(User user) {
+    	if(!StringUtils.isEmpty(user.getPassword())) {
+    		if(user.getId() != null) {
+//    			User u = userService.getById(user.getId());
+//    			user.setPassword(u.getPassword());
+//    			user.setSalt(u.getSalt());
+    		} else {
+    		}
+    		passwordHelper.encryptPassword(user);
+    	}
         userService.saveOrUpdate(user);
         return Result.success();
     }
