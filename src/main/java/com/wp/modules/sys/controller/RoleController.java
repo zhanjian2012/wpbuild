@@ -1,4 +1,4 @@
-package com.wp.modules.sys.web;
+package com.wp.modules.sys.controller;
 
 import java.util.Arrays;
 

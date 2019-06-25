@@ -1,4 +1,4 @@
-package com.wp.modules.sys.web;
+package com.wp.modules.sys.controller;
 
 import java.util.Arrays;
 
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.wp.common.PageResult;
 import com.wp.common.Result;
+import com.wp.core.annoation.SystemLog;
 import com.wp.core.shiro.PasswordHelper;
 import com.wp.modules.sys.entity.User;
 import com.wp.modules.sys.service.OrganizationService;
@@ -57,6 +58,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("user:view")
+    @SystemLog("用户管理：查询列表")
     public PageResult<User> list(User user) {
         return userService.findByPage(user);
     }
@@ -64,6 +66,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("user:save")
+    @SystemLog("用户管理：新增/修改用户")
     public Result<?> save(User user) {
     	if(!StringUtils.isEmpty(user.getPassword())) {
     		passwordHelper.encryptPassword(user);

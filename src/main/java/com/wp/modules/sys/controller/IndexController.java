@@ -1,4 +1,4 @@
-package com.wp.modules.sys.web;
+package com.wp.modules.sys.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
