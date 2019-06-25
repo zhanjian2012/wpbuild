@@ -66,13 +66,13 @@ public class UserController {
     @RequiresPermissions("user:save")
     public Result<?> save(User user) {
     	if(!StringUtils.isEmpty(user.getPassword())) {
-    		if(user.getId() != null) {
-//    			User u = userService.getById(user.getId());
-//    			user.setPassword(u.getPassword());
-//    			user.setSalt(u.getSalt());
-    		} else {
-    		}
     		passwordHelper.encryptPassword(user);
+    	} else {
+    		if(user.getId() != null) {
+    			User u = userService.getById(user.getId());
+    			user.setPassword(u.getPassword());
+    			user.setSalt(u.getSalt());
+    		} 
     	}
         userService.saveOrUpdate(user);
         return Result.success();
