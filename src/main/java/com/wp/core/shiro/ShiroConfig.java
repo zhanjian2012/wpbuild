@@ -111,7 +111,7 @@ public class ShiroConfig {
     @Bean
     public UserRealm userRealm(CredentialsMatcher credentialsMatcher) {
         UserRealm userRealm = new UserRealm();
-        userRealm.setCredentialsMatcher(credentialsMatcher);
+//        userRealm.setCredentialsMatcher(credentialsMatcher);
         userRealm.setCachingEnabled(false);
         return userRealm;
     }
