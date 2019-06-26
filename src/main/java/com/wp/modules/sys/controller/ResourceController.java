@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wp.common.Result;
+import com.wp.core.annoation.SystemLog;
 import com.wp.modules.sys.entity.Resource;
 import com.wp.modules.sys.entity.Resource.ResourceType;
 import com.wp.modules.sys.service.ResourceService;
@@ -38,6 +39,7 @@ public class ResourceController {
     
     @GetMapping
     @RequiresPermissions("resource:view")
+    @SystemLog("资源管理：查询资源列表")
     public String page(Model model) {
         model.addAttribute("resourceList", resourceService.findAll());
         return "system/resource";
@@ -46,6 +48,7 @@ public class ResourceController {
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("resource:save")
+    @SystemLog("资源管理：新增/修改资源")
     public Result<?> save(Resource resource) {
     	Resource parent = resourceService.getById(resource.getParentId());
         resource.setParentIds(parent.makeSelfAsParentIds());
@@ -60,6 +63,7 @@ public class ResourceController {
     @ResponseBody
     @PostMapping("/delete")
     @RequiresPermissions("resource:delete")
+    @SystemLog("资源管理：删除资源")
     public Result<?> delete(@RequestParam("id") Long id) {
         resourceService.removeById(id);
         return Result.success();

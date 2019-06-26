@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wp.common.PageResult;
 import com.wp.common.Result;
+import com.wp.core.annoation.SystemLog;
 import com.wp.modules.sys.entity.Role;
 import com.wp.modules.sys.service.ResourceService;
 import com.wp.modules.sys.service.RoleService;
@@ -47,6 +48,7 @@ public class RoleController {
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("role:view")
+    @SystemLog("角色管理：查询角色列表")
     public PageResult<Role> list(Role role) {
         return roleService.findByPage(role);
     }
@@ -54,6 +56,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("role:save")
+    @SystemLog("角色管理：新增/修改用户")
     public Result<?> save(@Valid Role role) {
         roleService.saveOrUpdate(role);
         return Result.success();
@@ -62,6 +65,7 @@ public class RoleController {
     @ResponseBody
     @PostMapping("/delete")
     @RequiresPermissions("role:delete")
+    @SystemLog("角色管理：删除用户")
     public Result<?> delete(@RequestParam("id") Long[] ids) {
         Arrays.asList(ids).forEach(id-> roleService.removeById(id));
         return Result.success();

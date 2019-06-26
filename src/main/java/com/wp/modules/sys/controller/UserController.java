@@ -58,7 +58,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("user:view")
-    @SystemLog("用户管理：查询列表")
+    @SystemLog("用户管理：查询用户列表")
     public PageResult<User> list(User user) {
         return userService.findByPage(user);
     }
@@ -84,6 +84,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("/delete")
     @RequiresPermissions("user:delete")
+    @SystemLog("用户管理：删除用户")
     public Result<?> delete(@RequestParam("id") Long[] ids, HttpServletRequest request) {
         Arrays.asList(ids).forEach(id -> userService.removeById(id));
         return Result.success();

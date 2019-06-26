@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wp.common.Result;
+import com.wp.core.annoation.SystemLog;
 import com.wp.modules.sys.entity.Organization;
 import com.wp.modules.sys.service.OrganizationService;
 
@@ -32,21 +33,23 @@ public class OrganizationController {
 
     @GetMapping
     @RequiresPermissions("organization:view")
+    @SystemLog("组织管理：查询组织列表")
     public String page(Model model) {
     	model.addAttribute("orgList", organizationService.findAll());
         return "system/organization";
     }
 
-    @ResponseBody
+    /*@ResponseBody
     @PostMapping("{id}/load")
     public Result<?> load(@PathVariable Long id) {
         Organization organization = organizationService.getById(id);
         return Result.success(organization);
     }
-
+*/
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("organization:save")
+    @SystemLog("组织管理：新增/修改组织")
     public Result<?> save(@Valid Organization organization) {
         organizationService.saveOrUpdate(organization);
         return Result.success();
@@ -54,6 +57,7 @@ public class OrganizationController {
 
     @ResponseBody
     @PostMapping("/delete")
+    @SystemLog("组织管理：删除组织")
     @RequiresPermissions("organization:delete")
     public Result<?> delete(Long id) {
         organizationService.removeById(id);
