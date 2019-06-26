@@ -56,7 +56,8 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(manager);
         //配置登录的url和登录成功的url
 //        shiroFilterFactoryBean.setLoginUrl("/loginpage");
-//        shiroFilterFactoryBean.setSuccessUrl("/indexpage");
+        shiroFilterFactoryBean.setSuccessUrl("/");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         //配置访问权限
         //shiro自定义过滤器
         Map<String, Filter> filters = new LinkedHashMap<>();

@@ -26,4 +26,9 @@ public class IndexController {
         return "base/main";
     }
 
+    @GetMapping("/unauthorized")
+    public String unauthorized() {
+        return "base/unauthorized";
+    }
+    
 }
